@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingDefaultResource">
+    <item
+        android:id="@+id/navigation_alarm"
+        android:icon="@drawable/tab_application_selector"
+        android:title="@string/menu" />
+    <item
+        android:id="@+id/navigation_status"
+        android:icon="@drawable/tab_application_selector"
+        android:title="@string/menu" />
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/tab_application_selector"
+        android:title="@string/menu" />
+    <item
+        android:id="@+id/navigation_case"
+        android:icon="@drawable/tab_application_selector"
+        android:title="@string/menu" />
+    <item
+        android:id="@+id/navigation_lock"
+        android:icon="@drawable/tab_application_selector"
+        android:title="@string/menu" />
+</menu>
