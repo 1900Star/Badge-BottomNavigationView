@@ -8,8 +8,8 @@
     <TextView
         android:id="@+id/tv_badge"
         android:layout_width="22dp"
-        android:layout_gravity="center"
         android:layout_height="22dp"
+        android:layout_gravity="center"
         android:layout_marginStart="18dp"
         android:background="@mipmap/circle_red_bg"
         android:gravity="center"
@@ -17,5 +17,16 @@
         android:textSize="10sp"
         android:visibility="gone"
         tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/tv_badge_dot"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="18dp"
+        android:background="@mipmap/circle_red_bg"
+        android:gravity="center"
+        android:visibility="gone"
+         />
 
 </LinearLayout>

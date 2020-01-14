@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
 
     @Override
     public void showBadgeCount(int menuPosition, int noticeCount) {
+        int maxNoticeCount = 99;
+        String dot = "..";
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) mBottomNavigationView.getChildAt(0);
         BottomNavigationItemView badgeMenuItemView = (BottomNavigationItemView) menuView.getChildAt(menuPosition);
         // 判断当前菜单是否已经添加红点，如果已经添加就先移除。
@@ -97,9 +99,13 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
         badgeView.setTag(menuPosition);
         mMenuSparesArray.put(menuPosition, badgeMenuItemView);
         badgeMenuItemView.addView(badgeView);
-        TextView textView = badgeView.findViewById(R.id.tv_badge);
-        textView.setText(String.valueOf(noticeCount));
-        textView.setVisibility(View.VISIBLE);
+        TextView tvNotic = badgeView.findViewById(R.id.tv_badge);
+        TextView tvDot = badgeView.findViewById(R.id.tv_badge_dot);
+        tvDot.setVisibility(noticeCount > maxNoticeCount ? View.VISIBLE : View.GONE);
+        tvNotic.setVisibility(noticeCount > maxNoticeCount ? View.GONE : View.VISIBLE);
+        if (noticeCount <= maxNoticeCount) {
+            tvNotic.setText(String.valueOf(noticeCount));
+        }
     }
 
     @Override
