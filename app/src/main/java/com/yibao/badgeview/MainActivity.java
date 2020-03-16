@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -24,9 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class MainActivity extends AppCompatActivity implements OnBadgeListener {
 
-    private MainViewPager mViewPager;
     private BottomNavigationView mBottomNavigationView;
     private SparseArray<BottomNavigationItemView> mMenuSparesArray;
+    private ViewPager2 mVp2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +37,30 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
 
 
     private void initView() {
-        mViewPager = findViewById(R.id.vp);
         mBottomNavigationView = findViewById(R.id.bnv);
         mBottomNavigationView.setItemTextAppearanceActive(R.style.bottom_selected_text);
         mBottomNavigationView.setItemTextAppearanceInactive(R.style.bottom_normal_text);
-
-
+        mVp2 = findViewById(R.id.vp2);
     }
 
     private void initData() {
         mMenuSparesArray = new SparseArray<>();
-        BadgePagerAdapter badgePagerAdapter = new BadgePagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(badgePagerAdapter);
-        mViewPager.setCurrentItem(0, false);
+        BadgePagerAdapter badgePagerAdapter = new BadgePagerAdapter(this);
+        mVp2.setAdapter(badgePagerAdapter);
+        mVp2.setCurrentItem(0, false);
     }
 
     private void initListener() {
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //是否允许ViewPager2滑动
+        mVp2.setUserInputEnabled(true);
+        mVp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mBottomNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -83,14 +88,13 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
     };
 
     private void switchItem(int i) {
-        mViewPager.setCurrentItem(i, false);
+        mVp2.setCurrentItem(i, false);
     }
 
 
     @Override
     public void showBadgeCount(int menuPosition, int noticeCount) {
         int maxNoticeCount = 99;
-        String dot = "..";
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) mBottomNavigationView.getChildAt(0);
         BottomNavigationItemView badgeMenuItemView = (BottomNavigationItemView) menuView.getChildAt(menuPosition);
         // 判断当前菜单是否已经添加红点，如果已经添加就先移除。
@@ -105,15 +109,6 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
         tvNotic.setVisibility(noticeCount > maxNoticeCount ? View.GONE : View.VISIBLE);
         if (noticeCount <= maxNoticeCount) {
             tvNotic.setText(String.valueOf(noticeCount));
-        }
-    }
-
-    @Override
-    public void removeBadgeCount(int menuPosition) {
-        Log.d("lsp", "移除 " + menuPosition);
-        if (mMenuSparesArray.size() > 0) {
-            BottomNavigationItemView badgeItemView = mMenuSparesArray.get(menuPosition);
-            removeMenuChild(badgeItemView);
         }
     }
 
@@ -135,4 +130,12 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
     }
 
 
+    @Override
+    public void removeBadgeCount(int menuPosition) {
+        Log.d("lsp", "移除 " + menuPosition);
+        if (mMenuSparesArray.size() > 0) {
+            BottomNavigationItemView badgeItemView = mMenuSparesArray.get(menuPosition);
+            removeMenuChild(badgeItemView);
+        }
+    }
 }

@@ -53,10 +53,13 @@ public class BadgeFragment extends Fragment {
     private void initListener() {
         mBtn.setOnClickListener(v -> {
             String badgeCount = mEdit.getText().toString().trim();
+            Log.d("lsp", badgeCount);
             if (badgeCount.isEmpty()) {
                 Toast.makeText(mActivity, "Please enter content", Toast.LENGTH_LONG).show();
+            } else if (badgeCount.startsWith("0")) {
+                Toast.makeText(mActivity, "Please make sure that the integer you entered is greater than zero", Toast.LENGTH_LONG).show();
             } else {
-                showBadge(mPosition, Integer.valueOf(badgeCount));
+                showBadge(mPosition, Integer.parseInt(badgeCount));
             }
         });
         mBtnRemove.setOnClickListener(v -> removeBadge(mPosition));
