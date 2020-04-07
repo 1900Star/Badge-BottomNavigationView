@@ -1,5 +1,6 @@
 package com.yibao.badgeview;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -7,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * @author luoshipeng
@@ -21,10 +26,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * Des：TODO
  */
 public class MainActivity extends AppCompatActivity implements OnBadgeListener {
-
+    @StringRes
+    private static final int[] TAB_TITLES = new int[]{R.string.menu, R.string.menu, R.string.menu};
     private BottomNavigationView mBottomNavigationView;
     private SparseArray<BottomNavigationItemView> mMenuSparesArray;
     private ViewPager2 mVp2;
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
         mBottomNavigationView.setItemTextAppearanceActive(R.style.bottom_selected_text);
         mBottomNavigationView.setItemTextAppearanceInactive(R.style.bottom_normal_text);
         mVp2 = findViewById(R.id.vp2);
+        mTabLayout = findViewById(R.id.tabs);
+
     }
 
     private void initData() {
@@ -48,6 +57,23 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
         BadgePagerAdapter badgePagerAdapter = new BadgePagerAdapter(this);
         mVp2.setAdapter(badgePagerAdapter);
         mVp2.setCurrentItem(0, false);
+        new TabLayoutMediator(mTabLayout, mVp2, true, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText("fragment" + position);
+            }
+        }).attach();
+        int tabCount = mTabLayout.getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            if (tab != null) {
+                View tabView = getTabView(this, i);
+                tab.setCustomView(tabView);
+            }
+
+        }
+
+
     }
 
     private void initListener() {
@@ -138,4 +164,16 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
             removeMenuChild(badgeItemView);
         }
     }
+
+
+    public View getTabView(Context context, int position) {
+        LayoutInflater mInflater = LayoutInflater.from(context);
+        int resId = position == 0 ? R.layout.item_tab_left : position == mTabLayout.getTabCount() - 1 ? R.layout.item_tab_right : R.layout.item_tab_middle;
+        View view = mInflater.inflate(resId, null);
+        TextView tv = view.findViewById(R.id.tab_text);
+        tv.setText(TAB_TITLES[0]);
+        return view;
+    }
+
+
 }
