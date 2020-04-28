@@ -4,4 +4,4 @@
 #### https://www.jianshu.com/p/97d01fa8881c
 
 
-![image](https://github.com/1900Star/Badge-BottomNavigationView/blob/master/pic/badge_view.jpg)
+![image](https://upload-images.jianshu.io/upload_images/5028465-40365fa9dce5f4da.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/1080/format/webp)
