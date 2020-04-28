@@ -12,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_margin="2dp"
-        android:background="@drawable/shape_about_card"
         app:tabIndicatorHeight="0dp"
         app:tabPaddingBottom="0dp"
         app:tabPaddingEnd="0dp"
         app:tabPaddingStart="0dp"
         app:tabPaddingTop="0dp"
         app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="#fff" />
+        app:tabTextAppearance="@style/MyCustomTextAppearance" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp2"

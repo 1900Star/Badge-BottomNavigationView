@@ -57,12 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
         BadgePagerAdapter badgePagerAdapter = new BadgePagerAdapter(this);
         mVp2.setAdapter(badgePagerAdapter);
         mVp2.setCurrentItem(0, false);
-        new TabLayoutMediator(mTabLayout, mVp2, true, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText("fragment" + position);
-            }
-        }).attach();
+        new TabLayoutMediator(mTabLayout, mVp2, true, (tab, position) -> tab.setText("fragment" + position)).attach();
         int tabCount = mTabLayout.getTabCount();
         for (int i = 0; i < tabCount; i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
@@ -72,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements OnBadgeListener {
             }
 
         }
-
 
     }
 

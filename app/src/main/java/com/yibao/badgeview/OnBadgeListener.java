@@ -15,7 +15,7 @@ public interface OnBadgeListener {
     void showBadgeCount(int menuPosition, int noticeCount);
 
     /**
-     *
+     * 移除红点消息
      * @param menuPosition 需要移除红点的位置
      */
     void removeBadgeCount(int menuPosition);
